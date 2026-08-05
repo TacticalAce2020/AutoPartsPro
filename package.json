@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build":"DATABASE_URL=\"postgresql://postgres:postgres@localhost:5432:db\" next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
