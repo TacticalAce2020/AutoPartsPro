@@ -1,6 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import ProductGrid from '@/components/ProductGrid'
+import ProductGrid from '../components/ProductGrid'
 
 export default async function Home() {
 const cookieStore = await cookies()
