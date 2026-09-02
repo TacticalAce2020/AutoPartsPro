@@ -1,52 +1,59 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { ShoppingCart, User, Wrench } from "lucide-react";
-import { useCart } from "@/context/CartContext";
-import AnnouncementBar from "./AnnouncementBar";
-import SearchBar from "./SearchBar";
-import YMMSelector from "./YMMSelector";
+import { useEffect, useState } from 'react'
+import { createBrowserClient } from '@supabase/ssr'
+import Link from 'next/link'
 
 export default function Header() {
-  const { itemCount, openDrawer } = useCart();
+const [user, setUser] = useState<any>(null)
 
-  return (
-    <header className="sticky top-0 z-40">
-      <AnnouncementBar />
-      <div className="bg-slate-900 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2 shrink-0">
-              <div className="bg-red-600 p-1.5 rounded-lg">
-                <Wrench size={20} className="text-white" />
-              </div>
-              <span className="text-xl font-bold text-white tracking-tight hidden sm:inline">
-                Auto<span className="text-red-500">Parts</span>Pro
-              </span>
-            </Link>
+const supabase = createBrowserClient(
+process.env.NEXT_PUBLIC_SUPABASE_URL!,
+process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
-            <SearchBar />
+useEffect(() => {
+const getUser = async () => {
+const { data: { user } } = await supabase.auth.getUser()
+setUser(user)
+}
+getUser()
 
-            <div className="flex items-center gap-2 shrink-0">
-              <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
-                <User size={20} />
-              </button>
-              <button
-                onClick={openDrawer}
-                className="relative p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
-              >
-                <ShoppingCart size={20} />
-                {itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                    {itemCount}
-                  </span>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <YMMSelector />
-    </header>
-  );
+const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+setUser(session?.user ?? null)
+})
+
+return () => subscription.unsubscribe()
+}, [])
+
+const handleSignOut = async () => {
+await supabase.auth.signOut()
+setUser(null)
+}
+
+return (
+<header className="bg-slate-900 text-white p-4 flex justify-between items-center">
+<Link href="/" className="text-xl font-bold">AutoPartsPro</Link>
+<div>
+{user ? (
+<div className="flex items-center gap-4">
+<span className="text-sm">{user.email}</span>
+<button
+onClick={handleSignOut}
+className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm font-medium"
+>
+Sign Out
+</button>
+</div>
+) : (
+<Link
+href="/login"
+className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm font-medium"
+>
+Sign In
+</Link>
+)}
+</div>
+</header>
+)
 }
