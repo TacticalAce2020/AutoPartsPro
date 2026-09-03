@@ -34,7 +34,7 @@ await supabase
 .from('orders')
 .update({ status: 'paid' })
 .eq('stripe_session_id', session.id);
-}
+
   const customerEmail = session.customer_details?.email;
 if (customerEmail) {
 await resend.emails.send({
@@ -44,6 +44,6 @@ subject: 'Order Confirmed - AutoPartsPro',
 html: `<p>Thanks for your purchase! Your order has been confirmed and is being processed.</p>`,
 });
 }
-
+}
 return NextResponse.json({ received: true });
 }
