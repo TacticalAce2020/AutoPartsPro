@@ -1,20 +1,18 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import { createClient } from '@supabase/supabase-js';
 
-const databaseUrl = process.env.DATABASE_URL || "postgresql://postgres:placeholder@localhost:5432/postgres";
-
-const globalForDb = globalThis as typeof globalThis & {
-  __arenaNextJsPostgresqlPool?: Pool;
-};
-
-export const pool =
-  globalForDb.__arenaNextJsPostgresqlPool ??
-  new Pool({
-    connectionString: databaseUrl,
-  });
-
-if (process.env.NODE_ENV !== "production") {
-  globalForDb.__arenaNextJsPostgresqlPool = pool;
+const proxyEnv = new Proxy(process.env, {
+get(target, prop: string) {
+if (prop === 'NEXT_PUBLIC_SUPABASE_URL') {
+return target[prop] || 'https://placeholder.supabase.co';
 }
+if (prop === 'NEXT_PUBLIC_SUPABASE_ANON_KEY') {
+return target[prop] || 'placeholder-key';
+}
+return target[prop];
+}
+});
 
-export const db = drizzle(pool);
+export const supabase = createClient(
+proxyEnv.NEXT_PUBLIC_SUPABASE_URL as string,
+proxyEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+);
