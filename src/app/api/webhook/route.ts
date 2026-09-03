@@ -41,7 +41,19 @@ await resend.emails.send({
 from: 'AutoPartsPro <onboarding@resend.dev>',
 to: customerEmail,
 subject: 'Order Confirmed - AutoPartsPro',
-html: `<p>Thanks for your purchase! Your order has been confirmed and is being processed.</p>`,
+html: `
+<div style="background-color: #09090b; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #ffffff;">
+<div style="max-width: 500px; margin: 0 auto; background-color: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 32px;">
+<h1 style="margin: 0 0 12px; font-size: 20px; font-weight: 600; color: #ffffff;">Order Confirmed</h1>
+<p style="margin: 0 0 24px; font-size: 14px; line-height: 1.5; color: #a1a1aa;">
+Thanks for your purchase! We’ve received your order and are getting it ready for processing.
+</p>
+<div style="border-top: 1px solid #27272a; padding-top: 20px; font-size: 12px; color: #71717a;">
+<p style="margin: 0;">Order Reference: <span style="color: #a1a1aa; font-family: monospace;">${session.id}</span></p>
+</div>
+</div>
+</div>
+`,
 });
 }
 }
