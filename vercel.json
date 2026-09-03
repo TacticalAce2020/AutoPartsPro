@@ -1,11 +1,11 @@
 {
 "env": {
-"NEXT_PUBLIC_SUPABASE_URL": "",
-"NEXT_PUBLIC_SUPABASE_ANON_KEY": "",
-"DATABASE_URL": "",
-"STRIPE_PUBLISHABLE_KEY": "",
-"STRIPE_SECRET_KEY": "",
-"STRIPE_WEBHOOK_SECRET": "",
-"RESEND_API_KEY": ""
+"NEXT_PUBLIC_SUPABASE_URL": "https://placeholder.supabase.co",
+"NEXT_PUBLIC_SUPABASE_ANON_KEY": "placeholder-key",
+"DATABASE_URL": "postgresql://postgres:placeholder@[::1]:5432/postgres",
+"STRIPE_PUBLISHABLE_KEY": "pk_test_placeholder",
+"STRIPE_SECRET_KEY": "sk_test_placeholder",
+"STRIPE_WEBHOOK_SECRET": "whsec_placeholder",
+"RESEND_API_KEY": "re_placeholder"
 }
 }
