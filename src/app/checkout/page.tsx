@@ -18,7 +18,20 @@ export default function CheckoutPage() {
   const { items, subtotal } = useCart();
   const [shippingMethod, setShippingMethod] = useState("standard");
   const [orderPlaced, setOrderPlaced] = useState(false);
-
+const handleStripeCheckout = async () => {
+try {
+const res = await fetch('/api/checkout', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+});
+const data = await res.json();
+if (data.url) {
+window.location.href = data.url;
+}
+} catch (error) {
+console.error('Checkout failed:', error);
+}
+};
   const shippingCost = shippingMethod === "express" ? 24.99 : shippingMethod === "freight" ? 49.99 : subtotal >= 150 ? 0 : 9.99;
   const tax = subtotal * 0.0825;
   const total = subtotal + shippingCost + tax;
@@ -217,8 +230,7 @@ export default function CheckoutPage() {
             </div>
 
             <button
-              onClick={() => setOrderPlaced(true)}
-              className="w-full bg-red-600 hover:bg-red-500 text-white py-3.5 rounded-xl font-bold mt-6 flex items-center justify-center gap-2 transition-all hover:shadow-lg hover:shadow-red-600/25"
+onClick={handleStripeCheckout}              className="w-full bg-red-600 hover:bg-red-500 text-white py-3.5 rounded-xl font-bold mt-6 flex items-center justify-center gap-2 transition-all hover:shadow-lg hover:shadow-red-600/25"
             >
               <Lock size={16} />
               Place Order — ${total.toFixed(2)}
