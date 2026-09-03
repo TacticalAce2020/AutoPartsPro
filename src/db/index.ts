@@ -12,7 +12,7 @@ return target[prop];
 }
 });
 
-export const supabase = createClient(
+export const db = createClient(
 proxyEnv.NEXT_PUBLIC_SUPABASE_URL as string,
 proxyEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
 );
