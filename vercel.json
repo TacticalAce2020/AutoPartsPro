@@ -2,33 +2,12 @@
 "buildCommand": null,
 "outputDirectory": null,
 "env": {
-"SUPABASE_URL": {
-"description": "Your Supabase project URL",
-"required": true
-},
-"SUPABASE_ANON_KEY": {
-"description": "Your Supabase public anon key",
-"required": true
-},
-"SUPABASE_SERVICE_ROLE_KEY": {
-"description": "Your Supabase service role secret",
-"required": true
-},
-"STRIPE_PUBLISHABLE_KEY": {
-"description": "Your Stripe publishable key",
-"required": true
-},
-"STRIPE_SECRET_KEY": {
-"description": "Your Stripe secret key",
-"required": true
-},
-"STRIPE_WEBHOOK_SECRET": {
-"description": "Your Stripe webhook signing secret",
-"required": true
-},
-"RESEND_API_KEY": {
-"description": "Your Resend API key",
-"required": true
-}
+"SUPABASE_URL": "Your Supabase project URL",
+"SUPABASE_ANON_KEY": "Your Supabase public anon key",
+"SUPABASE_SERVICE_ROLE_KEY": "Your Supabase service role secret",
+"STRIPE_PUBLISHABLE_KEY": "Your Stripe publishable key",
+"STRIPE_SECRET_KEY": "Your Stripe secret key",
+"STRIPE_WEBHOOK_SECRET": "Your Stripe webhook signing secret",
+"RESEND_API_KEY": "Your Resend API key"
 }
 }
