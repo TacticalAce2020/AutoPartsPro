@@ -7,27 +7,30 @@ apiVersion: '2023-10-16',
 
 export async function POST(req: Request) {
 try {
-const session = await stripe.checkout.sessions.create({
-payment_method_types: ['card'],
-line_items: [
-{
+const { items } = await req.json();
+
+const line_items = items.map((item: any) => ({
 price_data: {
 currency: 'usd',
 product_data: {
-name: 'AutoPartsPro Order',
+name: item.title || item.name || 'Auto Part',
+images: item.image ? [item.image] : [],
 },
-unit_amount: 135258,
+unit_amount: Math.round(item.price * 100),
 },
-quantity: 1,
-},
-],
+quantity: item.quantity || 1,
+}));
+
+const session = await stripe.checkout.sessions.create({
+payment_method_types: ['card'],
+line_items,
 mode: 'payment',
 success_url: `${req.headers.get('origin')}/?success=true`,
 cancel_url: `${req.headers.get('origin')}/checkout`,
 });
 
 return NextResponse.json({ url: session.url });
-} catch (err: any) {
-return NextResponse.json({ error: err.message }, { status: 500 });
+} catch (error: any) {
+return NextResponse.json({ error: error.message }, { status: 500 });
 }
 }
