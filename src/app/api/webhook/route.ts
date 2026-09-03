@@ -7,10 +7,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 apiVersion: '2023-10-16',
 });
 
-const resend = new Resend(process.env.RESEND_API_KEY!);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 const supabaseAdmin = createClient(
-process.env.NEXT_PUBLIC_SUPABASE_URL!,
-process.env.SUPABASE_SERVICE_ROLE_KEY!
+process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-key'
 );
 export async function POST(req: Request) {
 const body = await req.text();
